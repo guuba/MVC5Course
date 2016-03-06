@@ -11,24 +11,47 @@ namespace MVC5Course.Controllers
     public class EFController : Controller
     {
         FabricsEntities db = new FabricsEntities();
-        private Product prod;
 
-        // GET: EF
-        public ActionResult Index()
+        public ActionResult Index(bool? IsActive,string Keyword)
         {
-            var db = new FabricsEntities();
-
             var product = new Product()
             {
-                ProductName = "March",
-                Price = 58,
+                ProductName = "BMW",
+                Price = 2,
                 Stock = 1,
                 Active = true
             };
 
-            db.Product.Add(product);
+            //db.Product.Add(product);
+            //SaveChanges();
 
+            var pkey = product.ProductId;
 
+            //var data = db.Product.Where(p => p.ProductId == pkey).ToList();
+
+            var data = db.Product.OrderByDescending(p => p.ProductId).AsQueryable();
+
+            if (IsActive.HasValue)
+            {
+                data = data.Where(p => p.Active.HasValue ? p.Active.Value == IsActive.Value : false);
+            }
+            if(!string.IsNullOrWhiteSpace(Keyword))
+            {
+                data = data.Where(p => p.ProductName.Contains(Keyword));
+            }
+            
+            foreach (var item in data)
+            {
+                item.Price = item.Price + 1;
+            }
+
+            SaveChanges();
+
+            return View(data);
+        }
+
+        private void SaveChanges()
+        {
             try
             {
                 db.SaveChanges();
@@ -46,27 +69,6 @@ namespace MVC5Course.Controllers
                 }
                 throw;
             }
-            
-            var pkey = product.ProductId;
-            //var data = db.Product.ToList();
-            //var data = db.Product.Where(p => p.ProductId == pkey).ToList();
-            //var data = db.Product.FirstOrDefault(p => p.ProductId == pkey);
-            //var data = db.Product.OrderByDescending(p => p.ProductId);
-            //var data = db.Product.Find(pkey);<--- VIEW為IQueryable 此為單筆資料所以會生錯誤
-            //var data = db.Product.Where(p => p.ProductId == pkey).ToList();
-
-            //var data = db.Product.Where(p => p.ProductId == pkey).ToList();
-
-            var data = db.Product.OrderByDescending(p => p.ProductId).Take(5);
-
-            foreach (var item in data)
-            {
-                item.Price = item.Price + 1;
-            }
-
-            db.SaveChanges();
-
-            return View(data);
         }
 
         public ActionResult Detail(int id)
@@ -74,14 +76,28 @@ namespace MVC5Course.Controllers
             //var data = db.Product.Find(id);
             //var data = db.Product.Where(p => p.ProductId == id).FirstOrDefault();
             var data = db.Product.FirstOrDefault(p => p.ProductId == id);
-            return View(data);
 
+            return View(data);
         }
 
         public ActionResult Delete(int id)
         {
-            var item = db.Product.Find(id);
-            db.Product.Remove(item);
+            var product = db.Product.Find(id);
+
+            //foreach (var ol in db.OrderLine.Where(p => p.ProductId == id).ToList())
+            //{
+            //    db.OrderLine.Remove(ol);
+            //}
+
+            //foreach (var ol in product.OrderLine.ToList())
+            //{
+            //    db.OrderLine.Remove(ol);
+            //}
+
+            db.OrderLine.RemoveRange(product.OrderLine);
+
+            db.Product.Remove(product);
+
             db.SaveChanges();
 
             return RedirectToAction("Index");
