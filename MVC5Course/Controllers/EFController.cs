@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using System.Data.Entity.Validation;
+using System.Data.Entity;
 
 namespace MVC5Course.Controllers
 {
@@ -26,7 +27,7 @@ namespace MVC5Course.Controllers
             //SaveChanges();
 
             var pkey = product.ProductId;
-
+            
             //var data = db.Product.Where(p => p.ProductId == pkey).ToList();
 
             var data = db.Product.OrderByDescending(p => p.ProductId).AsQueryable();
@@ -101,6 +102,26 @@ namespace MVC5Course.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult QueryPlan(int num = 10)
+        {
+            var data = db.Product
+                .Include(t => t.OrderLine)
+                .OrderBy(p => p.ProductId)
+                .AsQueryable();
+
+
+            //以下程式碼以T-SQL進行查詢,一般來說會用T-SQL是因為為了提高效能
+            //因未關聯取得OrderLine相關資料,所以在View中訂單明細筆數都會為0
+            //var data = db.Database.SqlQuery<Product>(@"
+            //                  SELECT * 
+            //                  FROM dbo.Product p 
+            //                  WHERE p.ProductId < @p0", num);
+
+
+
+            return View(data);
         }
     }
 }
