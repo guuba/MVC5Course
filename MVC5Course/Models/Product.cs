@@ -27,6 +27,8 @@ namespace MVC5Course.Models
 
         [Required]
         [Range(2,99,ErrorMessage ="商品價格必須介於2~99")]
+        [DisplayFormat]
+        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public Nullable<decimal> Price { get; set; }
 
         [Required]
