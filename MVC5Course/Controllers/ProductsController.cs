@@ -24,17 +24,24 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(IList<Product> data)
+        public ActionResult Index(IList<Product批次更新ViewModel> data)
         {
-            foreach (var item in data)
+
+            if (ModelState.IsValid)
             {
-                var product = repo.Find(item.ProductId);
-                product.Stock = item.Stock;
-                product.Price = item.Price;
+
+
+                foreach (var item in data)
+                {
+                    var product = repo.Find(item.ProductId);
+                    product.Stock = item.Stock;
+                    product.Price = item.Price;
+                }
+
+                repo.UnitOfWork.Commit();
             }
 
-            repo.UnitOfWork.Commit();
-            return RedirectToAction("Index");
+            return View(repo.All().Take(5));
         }
 
         // GET: Products/Details/5
@@ -100,23 +107,42 @@ namespace MVC5Course.Controllers
         // POST: Products/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //msg:很重要
+        //        var db = (FabricsEntities)repo.UnitOfWork.Context;
+        //        db.Entry(product).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        TempData["ProductsEditDoneMsg"] = "商品編輯成功";
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(product);
+        //}
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        public ActionResult Edit(int id,FormCollection form)
         {
-            if (ModelState.IsValid)
+           
+             Product product = repo.Find(id);
+            if (TryUpdateModel<Product>(product, new string[] { "ProductId","ProductName","Price","Active","Stock" }))
             {
-                //msg:很重要
-                var db= (FabricsEntities)repo.UnitOfWork.Context;
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
-
+                repo.UnitOfWork.Commit();
                 TempData["ProductsEditDoneMsg"] = "商品編輯成功";
 
                 return RedirectToAction("Index");
             }
             return View(product);
         }
+
+
 
         // GET: Products/Delete/5
         public ActionResult Delete(int? id)
@@ -126,7 +152,7 @@ namespace MVC5Course.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Product product = db.Product.Find(id);
-            Product product =repo.Find(id.Value);
+            Product product = repo.Find(id.Value);
 
             if (product == null)
             {
@@ -147,7 +173,7 @@ namespace MVC5Course.Controllers
             Product product = repo.Find(id);
             product.IsDeleted = true;
             repo.UnitOfWork.Commit();
-            
+
             return RedirectToAction("Index");
         }
 
