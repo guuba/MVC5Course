@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
@@ -42,6 +43,16 @@ namespace MVC5Course.Controllers
             //    Server.MapPath("~/Content/alphago-logo.png"),
             //    "image/png",
             //    "GoGoGo.png");
+        }
+
+        public ActionResult JsonTest()
+        {
+            FabricsEntities db = new FabricsEntities();
+            //關閉LazyLoad避免產生循環參考的錯誤
+            db.Configuration.LazyLoadingEnabled = false;
+            var data=db.Product.Take(3);
+
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
     }
 }
