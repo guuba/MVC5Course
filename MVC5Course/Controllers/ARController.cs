@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using Microsoft.Web.Mvc;
 
 namespace MVC5Course.Controllers
 {
@@ -29,6 +30,7 @@ namespace MVC5Course.Controllers
                 "application/javascript", Encoding.UTF8);
         }
 
+
         public ActionResult FileTest()
         {
             //ContentType對應名稱請參考 :http://tool.oschina.net/commons
@@ -45,6 +47,7 @@ namespace MVC5Course.Controllers
             //    "GoGoGo.png");
         }
 
+        [AjaxOnly]
         public ActionResult JsonTest()
         {
             FabricsEntities db = new FabricsEntities();

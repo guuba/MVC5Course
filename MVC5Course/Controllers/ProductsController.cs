@@ -10,6 +10,8 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
+
+    //繼承BaseController
     public class ProductsController : BaseController
     {
         //private FabricsEntities db = new FabricsEntities();
@@ -128,9 +130,9 @@ namespace MVC5Course.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id,FormCollection form)
+        public ActionResult Edit(int id,FormCollection form) //此處FormCollection form無作用，只是為了避免Complier時與GET Edit重複導致錯誤
         {
-           
+              //先取得該id之完整資料
              Product product = repo.Find(id);
             if (TryUpdateModel<Product>(product, new string[] { "ProductId","ProductName","Price","Active","Stock" }))
             {
