@@ -46,6 +46,7 @@ namespace MVC5Course.Controllers
             return View(repo.All().Take(5));
         }
 
+              
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
@@ -127,6 +128,23 @@ namespace MVC5Course.Controllers
         //    return View(product);
         //}
 
+        //用介面方式進行強型別的Bulider，非常好的架構
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, FormCollection form)
+        //{
+        //    IProduct product = repo.Find(id);
+
+        //    if (TryUpdateModel<IProduct>(product))
+        //    {
+        //        repo.UnitOfWork.Commit();
+
+        //        TempData["ProductsEditDoneMsg"] = "商品編輯成功";
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(product);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
