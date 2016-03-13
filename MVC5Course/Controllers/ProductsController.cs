@@ -18,10 +18,16 @@ namespace MVC5Course.Controllers
         //ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(int? ProductId,string type)
         {
             var data = repo.All().Take(5);
             //return View(db.Product.ToList());
+
+            ViewBag.type = type;
+            if (ProductId.HasValue)
+            {
+                ViewBag.SelectedProductId = ProductId.Value;
+            }
             return View(data);
         }
 
@@ -61,7 +67,9 @@ namespace MVC5Course.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.OrderLines = product.OrderLine.ToList();
+           //ViewData["OrderLines"] = product.OrderLine.ToList();
+            //ViewBag.OrderLines = product.OrderLine.ToList();
+
             return View(product);
         }
 

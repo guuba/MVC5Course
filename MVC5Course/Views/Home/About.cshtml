@@ -9,3 +9,19 @@
 @*@section breadcrumb {
     <li><a href="#">@ViewBag.Title</a></li>
 }*@
+
+@Html.ActionLink(" ", "Index", null,
+    new { @class = "btn btn-primary", data_name = "Will" })
+
+<a href="@Url.Action("Index")" class="btn btn-primary" data-name="Will"></a>
+
+
+<p>Use this area to provide additional information.</p>
+
+@section scripts {
+
+    <script>
+        console.log('ok');
+    </script>
+
+}

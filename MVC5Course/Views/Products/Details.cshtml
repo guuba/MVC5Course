@@ -44,6 +44,38 @@
 
     </dl>
 </div>
+
+<hr />
+
+@*<h2>OrderLines</h2>
+
+    <table class="table">
+        <tr>
+            <th>ProductId</th>
+            <th>ProductName</th>
+            <th>LineNumber</th>
+            <th>Qty</th>
+            <th>LineTotal</th>
+        </tr>
+    @foreach (var item in ViewBag.OrderLines)
+    {
+        <tr>
+            <td>@item.Product.ProductId</td>
+            <td>@item.Product.ProductName</td>
+            <td>@item.LineNumber</td>
+            <td>@item.Qty</td>
+            <td>@item.LineTotal</td>
+        </tr>
+    }
+    </table>*@
+
+@*@Html.Action("Index", "OrderLines", new { ProductId = Model.ProductId })*@
+
+@Html.Partial("../OrderLines/Index", Model.OrderLine)
+
+<hr />
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |
     @Html.ActionLink("Back to List", "Index")
