@@ -18,7 +18,7 @@ namespace MVC5Course.Controllers
         public ActionResult Index()
         {
             var client = db.Client.Include(c => c.Occupation);
-            return View(client.Take(5).ToList());
+            return View("Index",client.Take(5).ToList());
         }
 
         // GET: Clients/Details/5
@@ -90,6 +90,7 @@ namespace MVC5Course.Controllers
                 db.SaveChanges();
                 
                 return View("Index", db.Client.Include(c => c.Occupation).Take(5));
+                //return this.View("Index");
                 //return RedirectToAction("Index");
             }
             ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
