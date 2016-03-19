@@ -1,8 +1,13 @@
 ﻿@model MVC5Course.Models.Client
 
 @{
+    if (IsAjax)
+    {
+        Layout = "";
+    }
     ViewBag.Title = "Create";
 }
+
 
 <h2>Create</h2>
 

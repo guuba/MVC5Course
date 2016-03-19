@@ -372,6 +372,8 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="widgets.html" />
     <EntityDeploy Include="Models\Fabrics.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1201,9 +1203,9 @@
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\MemberProfile\MemberProfile.cshtml" />
-    <Content Include="Views\EF\Index.cshtml" />
-    <Content Include="Views\EF\Detail.cshtml" />
-    <Content Include="Views\EF\QueryPlan.cshtml" />
+    <Content Include="Views\Clients\EF\Index.cshtml" />
+    <Content Include="Views\Clients\EF\Detail.cshtml" />
+    <Content Include="Views\Clients\EF\QueryPlan.cshtml" />
     <Content Include="Views\AR\Index.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\MB\Index.cshtml" />
@@ -1219,7 +1221,7 @@
     <Content Include="Views\OrderLines\Details.cshtml" />
     <Content Include="Views\OrderLines\Edit.cshtml" />
     <Content Include="Views\OrderLines\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Products.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Product.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Clients\Create.cshtml" />
     <Content Include="Views\Clients\Delete.cshtml" />
