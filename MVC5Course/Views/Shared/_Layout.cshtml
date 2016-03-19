@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("測試","test","Home")</li>
+                    <li>@Html.ActionLink("測試", "test", "Home")</li>
                     <li>@Html.ActionLink("產品管理", "Index", "Products")</li>
                     <li>@Html.ActionLink("客戶管理", "Index", "Clients")</li>
 
@@ -36,7 +36,11 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+
+        <div id="Main">
+            @RenderBody()
+        </div>
+       
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
