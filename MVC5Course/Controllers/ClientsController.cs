@@ -21,6 +21,7 @@ namespace MVC5Course.Controllers
             var client = db.Client.Include(c => c.Occupation).OrderBy(p => p.ClientId);
             //透過ToPagedList擴充方法取得分頁後的結果資料並傳入View裡
             var data = client.ToPagedList(pageNo, 10);
+            ViewBag.pageNo = pageNo;
             return View(data);
 
             //return View("Index",client.Take(5).ToList());
@@ -93,10 +94,12 @@ namespace MVC5Course.Controllers
             {
                 db.Entry(client).State = EntityState.Modified;
                 db.SaveChanges();
-                
-                return View("Index", db.Client.Include(c => c.Occupation).Take(5));
+
+                //故意於資訊中放置空格，用以驗證 @Ajax.JavaScriptStringEncode
+                TempData["Msg"] = "更新資料成功\r\n您剛才更新的是編號 " + client.ClientId + " 的資料";
+                //return View("Index", db.Client.Include(c => c.Occupation).Take(5));
                 //return this.View("Index");
-                //return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
             return View(client);
