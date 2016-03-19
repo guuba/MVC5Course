@@ -19,6 +19,7 @@ namespace MVC5Course.Controllers
         public ActionResult Index(int pageNo=1)
         {
             var client = db.Client.Include(c => c.Occupation).OrderBy(p => p.ClientId);
+            //透過ToPagedList擴充方法取得分頁後的結果資料並傳入View裡
             var data = client.ToPagedList(pageNo, 10);
             return View(data);
 
