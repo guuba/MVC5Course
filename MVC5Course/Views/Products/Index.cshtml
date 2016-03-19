@@ -6,17 +6,27 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @if (!String.IsNullOrEmpty(Convert.ToString(TempData["ProductsEditDoneMsg"])))
-    {
-        <h3>@TempData["ProductsEditDoneMsg"]</h3>
-    }
-</p>
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <p>
+        @Html.DropDownList("isActive", null, "--是否有效--", new { onchange = "this.form.submit();" })
+    </p>
+    <p>
+        @*//經測試，此處TextBox的Name，"Keyword" 或 "keyword" 都可以
+        //主要是後端Controller Action Model binding 時名稱一定要與此處名稱一樣
+        //ex :public ActionResult Index(int? ProductId,string type,bool? isActive,string keyword)
+        //那麼之後public ActionResult Index裡的程式叫用keyword變數時，都要一致使用"keyword"*@
+        @Html.TextBox("keyword", null, new { onchange = "this.form.submit();" })
+    </p>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+        @if (!String.IsNullOrEmpty(Convert.ToString(TempData["ProductsEditDoneMsg"])))
+        {
+            <h3>@TempData["ProductsEditDoneMsg"]</h3>
+        }
+    </p>
+}
 
-<p>
-    @Html.DropDownList("isActive","--是否有效--")
-</p>
 
 @using (Html.BeginForm())
 {
@@ -56,7 +66,7 @@
                 ViewBag.SelectedProductItem = data[i];
             }
 
-            <tr @if (ViewBag.SelectedProductId != null && ViewBag.SelectedProductId == data[i].ProductId) { @Html.Raw("style='background-color: lightyellow;'")  }>
+            <tr @if (ViewBag.SelectedProductId != null && ViewBag.SelectedProductId == data[i].ProductId) { @Html.Raw("style='background-color: lightyellow;'")    }>
                 <td>
                     @Html.DisplayFor(modelItem => data[i].ProductName)
                 </td>

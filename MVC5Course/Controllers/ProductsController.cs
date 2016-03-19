@@ -18,7 +18,7 @@ namespace MVC5Course.Controllers
         //ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
-        public ActionResult Index(int? ProductId,string type,bool? isActive)
+        public ActionResult Index(int? ProductId,string type,bool? isActive,string keyword)
         {
             //var data = repo.All().Take(5);
             var data = repo.All(true);
@@ -28,6 +28,12 @@ namespace MVC5Course.Controllers
             {
                 data = data.Where(p => p.Active.HasValue && p.Active.Value == isActive.Value);
             }
+
+            if (!String.IsNullOrEmpty(keyword))
+            {
+                data = data.Where(p => p.ProductName.Contains(keyword));
+            }
+
             var items = new List<SelectListItem>();
             items.Add(new SelectListItem() { Value = "true", Text = "有效" });
             items.Add(new SelectListItem() { Value = "false", Text = "無效" });
