@@ -18,10 +18,20 @@ namespace MVC5Course.Controllers
         //ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
-        public ActionResult Index(int? ProductId,string type)
+        public ActionResult Index(int? ProductId,string type,bool? isActive)
         {
-            var data = repo.All().Take(5);
+            //var data = repo.All().Take(5);
+            var data = repo.All(true);
             //return View(db.Product.ToList());
+
+            if (isActive.HasValue)
+            {
+                data = data.Where(p => p.Active.HasValue && p.Active.Value == isActive.Value);
+            }
+            var items = new List<SelectListItem>();
+            items.Add(new SelectListItem() { Value = "true", Text = "有效" });
+            items.Add(new SelectListItem() { Value = "false", Text = "無效" });
+            ViewData["isActive"] = new SelectList(items, "value", "Text");
 
             ViewBag.type = type;
             if (ProductId.HasValue)
